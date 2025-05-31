@@ -54,10 +54,14 @@ def analyze_stock():
         if request.is_json:
             data = request.get_json()
             ticker = data.get('ticker')
-            logger.info(f"Received JSON request for ticker: {ticker}")
+            avg_holding_price = data.get('avg_holding_price')
+            logger.info(f"Received JSON request for ticker: {ticker} with avg price: {avg_holding_price}")
         else:
             ticker = request.form.get('ticker')
-            logger.info(f"Received form data request for ticker: {ticker}")
+            avg_holding_price = request.form.get('avg_holding_price')
+            if avg_holding_price:
+                avg_holding_price = float(avg_holding_price)
+            logger.info(f"Received form data request for ticker: {ticker} with avg price: {avg_holding_price}")
         
         if not ticker:
             logger.warning("No ticker provided in request")
@@ -65,9 +69,33 @@ def analyze_stock():
 
         logger.info(f"Analyzing ticker: {ticker}")
         
+        # Add avg holding price context to prompt if provided
+        avg_price_context = ""
+        if avg_holding_price:
+            avg_price_context = f"""
+            The user has an average holding price of ₹{avg_holding_price:.2f} for this stock.
+            Based on this information, provide specific recommendations:
+            - If they are in profit, advise whether to:
+              * Book complete profit
+              * Book partial profit and hold remaining
+              * Hold entire position
+              * Add more to position
+            - If they are in loss, advise whether to:
+              * Book the loss
+              * Average down by buying more
+              * Hold and wait for recovery
+            Consider factors like:
+            - Percentage of profit/loss
+            - Current market conditions
+            - Stock's future prospects
+            - Risk factors
+            """
+
         # Comprehensive prompt for Gemini
         prompt = f"""
-        Analyze the Indian stock {ticker} (from NSE/BSE) and provide comprehensive information in JSON format. Include:
+        Analyze the Indian stock {ticker} (from NSE/BSE) and provide comprehensive information in JSON format.
+        {avg_price_context}
+        Include:
 
         1. Basic Information:
            - Full company name
@@ -172,6 +200,13 @@ def analyze_stock():
                 "management_quality": "Score between 1-100",
                 "valuation": "Score between 1-100",
                 "technical_strength": "Score between 1-100"
+            }},
+            "personal_position": {{
+                "avg_holding_price": "User's average holding price in INR",
+                "current_return": "Percentage return on investment",
+                "return_amount": "Absolute return amount in INR",
+                "position_advice": "Detailed advice based on current position",
+                "action_items": ["List of recommended actions"]
             }},
             "analysis": "Detailed analysis including all aspects mentioned above",
             "recommendation": "Buy/Hold/Sell with brief reasoning"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaArrowUp, FaArrowDown, FaInfoCircle, FaChartLine, FaUsers, FaShieldAlt } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown, FaInfoCircle, FaChartLine, FaUsers, FaShieldAlt, FaUser } from 'react-icons/fa';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, PieChart, Pie, Cell } from 'recharts';
 
 function StockInfo({ stockData }) {
@@ -213,6 +213,59 @@ function StockInfo({ stockData }) {
           </div>
         </div>
       </div>
+
+      {/* Technical Indicators section */}
+
+      {stockData.personal_position && stockData.personal_position.avg_holding_price && (
+        <div className="p-6 border-t border-gray-200 bg-gradient-to-r from-yellow-50 to-orange-50">
+          <div className="flex items-center mb-4">
+            <FaUser className="text-orange-600 mr-2" />
+            <h3 className="text-lg font-semibold">Your Position Analysis</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div className="bg-white p-4 rounded shadow-sm">
+                <p className="text-sm text-gray-500">Average Holding Price</p>
+                <p className="font-medium text-lg">{formatCurrency(stockData.personal_position.avg_holding_price)}</p>
+              </div>
+              <div className={`bg-white p-4 rounded shadow-sm ${
+                parseFloat(stockData.personal_position.current_return) >= 0 
+                  ? 'bg-green-50' 
+                  : 'bg-red-50'
+              }`}>
+                <p className="text-sm text-gray-500">Current Return</p>
+                <p className={`font-medium text-lg ${
+                  parseFloat(stockData.personal_position.current_return) >= 0 
+                    ? 'text-green-600' 
+                    : 'text-red-600'
+                }`}>
+                  {stockData.personal_position.current_return}%
+                  <span className="block text-sm font-normal">
+                    ({formatCurrency(stockData.personal_position.return_amount)})
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="bg-white p-4 rounded shadow-sm">
+              <p className="text-sm font-medium text-gray-700 mb-2">Recommended Actions</p>
+              <ul className="space-y-2">
+                {stockData.personal_position.action_items.map((action, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="inline-block w-4 h-4 mt-1 mr-2 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs">
+                      {index + 1}
+                    </span>
+                    <span className="text-gray-700">{action}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="mt-4 p-4 bg-white rounded shadow-sm">
+            <p className="text-sm font-medium text-gray-700 mb-2">Position Advice</p>
+            <p className="text-gray-700 whitespace-pre-line">{stockData.personal_position.position_advice}</p>
+          </div>
+        </div>
+      )}
 
       {/* Risk Assessment */}
       <div className="p-6 border-t border-gray-200">
