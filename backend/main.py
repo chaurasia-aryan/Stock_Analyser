@@ -82,13 +82,44 @@ def analyze_stock():
            - Dividend yield
            - 52-week price range
            - Revenue and earnings trends
+           - Book value
+           - ROCE (Return on Capital Employed)
+           - Debt to Equity ratio
 
-        3. Analysis:
-           - Company overview and business model
-           - Recent performance and Indian market trends
-           - Key strengths and competitive advantages in Indian market
-           - Potential risks and challenges (including regulatory environment)
-           - Future growth prospects in Indian economy
+        3. Shareholding Pattern:
+           - FII (Foreign Institutional Investors) holdings percentage
+           - DII (Domestic Institutional Investors) holdings percentage
+           - Promoter holdings percentage
+           - Public holdings percentage
+           - Quarter-on-quarter change in institutional holdings
+
+        4. Technical Indicators:
+           - RSI (Relative Strength Index)
+           - Moving averages (50-day and 200-day)
+           - Volume trend
+           - Support and resistance levels
+           - Technical patterns identified
+
+        5. Industry Analysis:
+           - Sector performance
+           - Peer comparison
+           - Market share
+           - Competitive position
+
+        6. Risk Assessment:
+           - Company-specific risks
+           - Industry risks
+           - Economic risks
+           - Regulatory risks
+
+        7. Stock Rating:
+           - Overall rating (1-100 scale)
+           - Individual component scores:
+             * Financial health (1-100)
+             * Growth prospects (1-100)
+             * Management quality (1-100)
+             * Valuation (1-100)
+             * Technical strength (1-100)
 
         Format the response as a JSON object with these fields:
         {{
@@ -103,6 +134,45 @@ def analyze_stock():
             "dividend_yield": "Current dividend yield with %",
             "fifty_two_week_range": "52-week low - high range in INR",
             "volume": "Trading volume",
+            "book_value": "Book value per share in INR",
+            "roce": "Return on Capital Employed in %",
+            "debt_equity": "Debt to Equity ratio",
+            "shareholding_pattern": {{
+                "fii_holding": "FII holding %",
+                "dii_holding": "DII holding %",
+                "promoter_holding": "Promoter holding %",
+                "public_holding": "Public holding %",
+                "holding_changes": "Quarter-on-quarter changes"
+            }},
+            "technical_indicators": {{
+                "rsi": "RSI value",
+                "moving_avg_50": "50-day MA in INR",
+                "moving_avg_200": "200-day MA in INR",
+                "volume_trend": "Volume trend analysis",
+                "support_levels": ["Support price levels in INR"],
+                "resistance_levels": ["Resistance price levels in INR"],
+                "patterns": ["Identified technical patterns"]
+            }},
+            "industry_analysis": {{
+                "sector_performance": "Sector performance analysis",
+                "peer_comparison": "Comparison with peers",
+                "market_share": "Market share details",
+                "competitive_position": "Competitive position analysis"
+            }},
+            "risk_assessment": {{
+                "company_risks": ["List of company-specific risks"],
+                "industry_risks": ["List of industry risks"],
+                "economic_risks": ["List of economic risks"],
+                "regulatory_risks": ["List of regulatory risks"]
+            }},
+            "stock_rating": {{
+                "overall_rating": "Rating between 1-100",
+                "financial_health": "Score between 1-100",
+                "growth_prospects": "Score between 1-100",
+                "management_quality": "Score between 1-100",
+                "valuation": "Score between 1-100",
+                "technical_strength": "Score between 1-100"
+            }},
             "analysis": "Detailed analysis including all aspects mentioned above",
             "recommendation": "Buy/Hold/Sell with brief reasoning"
         }}
@@ -113,6 +183,7 @@ def analyze_stock():
         - Dividend yield as percentage (e.g., "2.5%")
         - 52-week range as "low - high" (e.g., "₹125.30 - ₹198.45")
         - All currency values should be in INR (₹)
+        - Ratings should be integers between 1-100
         """
         
         logger.info("Sending request to Gemini API")
@@ -133,7 +204,9 @@ def analyze_stock():
                     'company_name', 'ticker', 'exchange', 'current_price', 'day_change', 
                     'day_change_percent', 'market_cap', 'pe_ratio', 
                     'dividend_yield', 'fifty_two_week_range', 'volume',
-                    'analysis', 'recommendation'
+                    'book_value', 'roce', 'debt_equity', 'shareholding_pattern',
+                    'technical_indicators', 'industry_analysis', 'risk_assessment',
+                    'stock_rating', 'analysis', 'recommendation'
                 ]
                 for field in required_fields:
                     if field not in analysis_data:
