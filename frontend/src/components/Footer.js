@@ -11,7 +11,7 @@ function Footer() {
             </p>
           </div>
           <div className="text-sm text-gray-400">
-            <p>Powered by Google Gemini API</p>
+            <p>All the information here is obtained from Google Gemini API</p>
             <p className="mt-1">This is not financial advice. Use at your own risk.</p>
           </div>
         </div>

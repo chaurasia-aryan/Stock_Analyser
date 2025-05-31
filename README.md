@@ -1,14 +1,13 @@
-# Indian Stock Analysis Dashboard
-
-A web application for analyzing Indian stocks using AI-powered insights. The application provides real-time analysis of stocks listed on NSE and BSE, offering comprehensive information including market trends, financial metrics, and AI-generated recommendations.
+# Stock Analysis Dashboard
+This is a personal project I built to get AI-driven support for my stock market decisions. It’s a web-based dashboard that analyzes stocks listed on NSE and BSE, providing real-time insights, key financial metrics, market trends, and AI-generated recommendations to help inform smarter investment choices.
 
 ## Features
 
-- Real-time stock analysis for Indian markets (NSE/BSE)
+- Real-time stock analysis 
 - AI-powered insights and recommendations
 - Comprehensive financial metrics (P/E ratio, market cap in Cr/L, dividend yield)
 - Beautiful and responsive UI with Tailwind CSS
-- Currency display in INR (₹)
+
 
 ## Tech Stack
 
