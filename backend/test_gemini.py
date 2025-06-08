@@ -1,24 +1,26 @@
+#This is a test file to check if your \ Gemini API is working
 import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-load_dotenv() # Load environment variables from .env
+load_dotenv()
 
 api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
-    print("Error: GEMINI_API_KEY environment variable not set or .env file not found.")
+    print("Error: Missing Gemini API key in environment or .env file")
 else:
     try:
-        print(f"Attempting to configure Gemini API with key: ...{api_key[-4:]}") # Print last 4 chars for partial confirmation
+        # Show last 4 chars for key verification
+        print(f"Setting up Gemini API with key: ...{api_key[-4:]}")
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-1.5-flash') # Or your preferred model
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
-        # Make a simple test call
+        # Quick test to verify API works
         prompt = "Tell me a fun fact about the Roman Empire."
-        print(f"\nSending test prompt: '{prompt}'")
+        print(f"\nTesting with prompt: '{prompt}'")
         response = model.generate_content(prompt)
-        
+        #you should get a paragraph of text as a response
         print("\nGemini API Test Successful!")
         print("Response:")
         print(response.text)

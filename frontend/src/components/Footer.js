@@ -7,12 +7,12 @@ function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <p className="text-sm">
-              &copy; {new Date().getFullYear()} StockAI Dashboard. All rights reserved.
+              &copy; {new Date().getFullYear()} StockAI Dashboard
             </p>
           </div>
           <div className="text-sm text-gray-400">
-            <p>All the information here is obtained from Google Gemini API</p>
-            <p className="mt-1">This is not financial advice. Use at your own risk.</p>
+            <p>Powered by Google Gemini AI</p>
+            <p className="mt-1">Not financial advice - use responsibly</p>
           </div>
         </div>
       </div>

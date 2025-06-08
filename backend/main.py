@@ -6,29 +6,28 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import google.generativeai as genai
 
-# Configure logging
+# Set up basic logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Load environment variables
 load_dotenv()
 
-# Configure Google Gemini API
+# Initialize Gemini API
 API_KEY = os.getenv("GEMINI_API_KEY")
 if not API_KEY:
-    logger.error("GEMINI_API_KEY environment variable not set")
-    raise ValueError("GEMINI_API_KEY environment variable not set")
+    logger.error("Missing Gemini API key in environment")
+    raise ValueError("Missing Gemini API key in environment")
 
 try:
     genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel('gemini-1.5-flash')
-    logger.info("Successfully configured Gemini API")
+    logger.info("Gemini API ready")
 except Exception as e:
-    logger.error(f"Failed to configure Gemini API: {str(e)}")
+    logger.error(f"Gemini API setup failed: {str(e)}")
     raise
 
 app = Flask(__name__)
-# Enable CORS with additional options
+# Allow frontend to communicate with our API
 CORS(app, resources={
     r"/*": {
         "origins": ["http://localhost:3000"],
